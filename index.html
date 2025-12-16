@@ -54,147 +54,134 @@
         body {
             background-color: #050505;
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.03) 0%, transparent 60%),
-                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8));
+                radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 80%),
+                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85));
             color: #ffffff;
-            overflow-x: hidden;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Estilo Cristal */
+        /* Paneles de Cristal (Fotos) */
         .glass-panel {
             background: rgba(12, 20, 35, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 243, 255, 0.15);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: zoom-in;
             position: relative;
             overflow: hidden;
         }
         
         .glass-panel:hover {
-            border-color: rgba(0, 243, 255, 0.8);
+            border-color: rgba(0, 243, 255, 1);
             transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.25);
             z-index: 20;
-        }
-
-        /* Efecto de escaneo sobre las fotos */
-        .glass-panel::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0, 243, 255, 0.05) 50%, transparent 100%);
-            transform: translateY(-100%);
-            transition: transform 0.5s;
-        }
-        .glass-panel:hover::after {
-            transform: translateY(100%);
         }
 
         /* Marco del teléfono */
         .phone-mockup {
-            box-shadow: 0 0 0 6px #1e293b, 0 0 0 8px #000, 0 0 50px rgba(0, 243, 255, 0.15);
+            box-shadow: 
+                0 0 0 4px #1e293b, 
+                0 0 0 6px #000, 
+                0 0 80px rgba(0, 243, 255, 0.15);
         }
 
-        /* LIGHTBOX */
-        #lightbox { transition: all 0.3s ease; }
+        /* Lightbox */
+        #lightbox { transition: opacity 0.3s ease, visibility 0.3s ease; }
         .lightbox-hidden { opacity: 0; pointer-events: none; visibility: hidden; }
         .lightbox-visible { opacity: 1; pointer-events: auto; visibility: visible; }
     </style>
 </head>
 <body class="flex flex-col font-sans selection:bg-cyan-500/30">
 
-    <!-- CABECERA -->
-    <header class="w-full py-6 px-4 z-20 flex flex-col items-center justify-center border-b border-white/5 bg-black/20 backdrop-blur-sm">
-        <h1 class="font-krono text-4xl md:text-5xl font-black text-center text-white animate-flicker tracking-widest">
+    <!-- CABECERA COMPACTA -->
+    <header class="w-full py-4 px-4 z-20 flex flex-col items-center justify-center border-b border-white/5 bg-black/40 backdrop-blur-md sticky top-0">
+        <h1 class="font-krono text-3xl md:text-4xl font-black text-center text-white animate-flicker tracking-widest">
             KRONO V1.0
         </h1>
-        <p class="font-krono text-[10px] md:text-xs text-cyan-400 tracking-[0.4em] uppercase opacity-70 mt-2">
-            by Albert Closa
-        </p>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <!-- Usamos Flexbox con wrap reverso para móvil y row para escritorio -->
-    <main class="flex-grow w-full max-w-[1800px] mx-auto p-4 md:p-8 flex items-center justify-center min-h-[80vh]">
+    <!-- GRID PRINCIPAL (Layout MAX) -->
+    <main class="flex-grow w-full max-w-[1920px] mx-auto p-4 md:p-6 flex flex-col gap-6">
         
-        <div class="flex flex-col md:flex-row items-center justify-center gap-6 w-full">
-
-            <!-- COLUMNA IZQUIERDA (3 Fotos) -->
-            <!-- order-2 en móvil (abajo), order-1 en escritorio (izquierda) -->
-            <div class="order-2 md:order-1 flex flex-row md:flex-col gap-4 w-full md:w-1/4 justify-center md:justify-end items-center">
-                <!-- Foto 1 -->
-                <div class="glass-panel rounded-xl aspect-[9/16] w-[28%] md:w-[70%] lg:w-[60%] max-w-[200px] group" onclick="openLightbox('img1')">
-                    <img id="img1" src="captura1.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+01'">
-                </div>
-                <!-- Foto 2 -->
-                <div class="glass-panel rounded-xl aspect-[9/16] w-[28%] md:w-[70%] lg:w-[60%] max-w-[200px] group md:mr-8" onclick="openLightbox('img2')">
-                    <img id="img2" src="captura2.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+02'">
-                </div>
-                <!-- Foto 3 -->
-                <div class="glass-panel rounded-xl aspect-[9/16] w-[28%] md:w-[70%] lg:w-[60%] max-w-[200px] group" onclick="openLightbox('img3')">
-                    <img id="img3" src="captura3.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+03'">
-                </div>
+        <!-- NIVEL SUPERIOR: IMG - VIDEO - IMG -->
+        <div class="flex flex-col md:flex-row gap-6 justify-center items-center h-auto md:h-[65vh]">
+            
+            <!-- IZQUIERDA: Captura 1 -->
+            <div class="glass-panel rounded-2xl aspect-[9/16] h-[40vh] md:h-full w-auto max-w-[300px] md:max-w-none group order-2 md:order-1" onclick="openLightbox('img1')">
+                <img id="img1" src="captura1.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+01'">
+                <div class="absolute bottom-0 w-full bg-black/70 p-2 text-center text-[10px] text-neon opacity-0 group-hover:opacity-100 transition-opacity">ZOOM</div>
             </div>
 
-            <!-- COLUMNA CENTRAL (Video) -->
-            <!-- order-1 en móvil (arriba), order-2 en escritorio (centro) -->
-            <div class="order-1 md:order-2 w-full md:w-2/4 lg:w-1/3 flex justify-center z-10 my-4 md:my-0">
-                <div class="relative w-full max-w-[320px] lg:max-w-[360px] animate-float">
-                    
-                    <!-- Glow -->
-                    <div class="absolute -inset-8 bg-cyan-500/10 blur-[50px] rounded-full pointer-events-none"></div>
+            <!-- CENTRO: Video (El más grande) -->
+            <div class="relative h-[60vh] md:h-full aspect-[9/16] max-w-[500px] order-1 md:order-2 animate-float z-10">
+                <!-- Teléfono -->
+                <div class="w-full h-full bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative">
+                    <video id="mainVideo" class="w-full h-full object-cover" loop playsinline muted>
+                        <source src="mivideo.mp4" type="video/mp4">
+                    </video>
 
-                    <!-- Teléfono -->
-                    <div class="aspect-[9/16] bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative">
-                        <video id="mainVideo" class="w-full h-full object-cover" loop playsinline muted>
-                            <source src="mivideo.mp4" type="video/mp4">
-                        </video>
-
-                        <!-- Overlay Play -->
-                        <div id="playOverlay" class="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer group" onclick="togglePlay()">
-                            <div class="w-16 h-16 rounded-full border border-cyan-400/40 bg-black/40 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <i data-lucide="play" class="w-6 h-6 text-white ml-1"></i>
-                            </div>
+                    <!-- Overlay Play -->
+                    <div id="playOverlay" class="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer group" onclick="togglePlay()">
+                        <div class="w-20 h-20 rounded-full border-2 border-cyan-400/50 bg-black/50 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(0,243,255,0.4)]">
+                            <i data-lucide="play" class="w-8 h-8 text-white ml-1"></i>
                         </div>
+                    </div>
 
-                        <!-- Fallback Error -->
-                        <div id="errorState" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center hidden z-20">
-                            <i data-lucide="wifi-off" class="w-10 h-10 text-slate-600 mb-3"></i>
-                            <p class="text-[10px] text-cyan-500 tracking-widest">VIDEO SIGNAL LOST</p>
-                            <button onclick="document.getElementById('manualInput').click()" class="mt-4 text-[9px] border border-cyan-500/30 px-3 py-1 rounded text-cyan-200 hover:bg-cyan-500/20 transition">RECONECTAR</button>
+                    <!-- Overlay UI -->
+                    <div class="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-between items-start">
+                        <span class="font-krono text-xs text-neon animate-pulse">LIVE</span>
+                        <div class="flex gap-1">
+                            <div class="w-1.5 h-1.5 rounded-full bg-neon"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-slate-600"></div>
                         </div>
+                    </div>
+
+                    <!-- Error Fallback -->
+                    <div id="errorState" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center hidden z-20">
+                        <i data-lucide="video-off" class="w-12 h-12 text-slate-700 mb-4"></i>
+                        <button onclick="document.getElementById('manualInput').click()" class="bg-neon/20 border border-neon/50 text-neon px-4 py-2 rounded text-xs hover:bg-neon hover:text-black transition font-bold">CARGAR DATOS</button>
                     </div>
                 </div>
             </div>
 
-            <!-- COLUMNA DERECHA (3 Fotos) -->
-            <!-- order-3 en móvil (abajo del todo), order-3 en escritorio (derecha) -->
-            <div class="order-3 md:order-3 flex flex-row md:flex-col gap-4 w-full md:w-1/4 justify-center md:justify-start items-center">
-                <!-- Foto 4 -->
-                <div class="glass-panel rounded-xl aspect-[9/16] w-[28%] md:w-[70%] lg:w-[60%] max-w-[200px] group" onclick="openLightbox('img4')">
-                    <img id="img4" src="captura4.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+04'">
-                </div>
-                <!-- Foto 5 -->
-                <div class="glass-panel rounded-xl aspect-[9/16] w-[28%] md:w-[70%] lg:w-[60%] max-w-[200px] group md:ml-8" onclick="openLightbox('img5')">
-                    <img id="img5" src="captura5.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+05'">
-                </div>
-                <!-- Foto 6 -->
-                <div class="glass-panel rounded-xl aspect-[9/16] w-[28%] md:w-[70%] lg:w-[60%] max-w-[200px] group" onclick="openLightbox('img6')">
-                    <img id="img6" src="captura6.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+06'">
-                </div>
+            <!-- DERECHA: Captura 2 -->
+            <div class="glass-panel rounded-2xl aspect-[9/16] h-[40vh] md:h-full w-auto max-w-[300px] md:max-w-none group order-3 md:order-3" onclick="openLightbox('img2')">
+                <img id="img2" src="captura2.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+02'">
+                <div class="absolute bottom-0 w-full bg-black/70 p-2 text-center text-[10px] text-neon opacity-0 group-hover:opacity-100 transition-opacity">ZOOM</div>
             </div>
 
         </div>
+
+        <!-- NIVEL INFERIOR: GALERÍA (Resto de fotos) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1400px] mx-auto">
+            <!-- Foto 3 -->
+            <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img3')">
+                <img id="img3" src="captura3.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+03'">
+            </div>
+            <!-- Foto 4 -->
+            <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img4')">
+                <img id="img4" src="captura4.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+04'">
+            </div>
+            <!-- Foto 5 -->
+            <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img5')">
+                <img id="img5" src="captura5.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+05'">
+            </div>
+            <!-- Foto 6 -->
+            <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img6')">
+                <img id="img6" src="captura6.jpg" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+06'">
+            </div>
+        </div>
+
     </main>
 
-    <!-- LIGHTBOX MODAL -->
-    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center lightbox-hidden backdrop-blur-md" onclick="closeLightbox()">
-        <button class="absolute top-4 right-4 text-white hover:text-cyan-400 p-2">
+    <!-- LIGHTBOX (VISOR) -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center lightbox-hidden backdrop-blur-xl" onclick="closeLightbox()">
+        <button class="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-full transition">
             <i data-lucide="x" class="w-8 h-8"></i>
         </button>
-        <img id="lightbox-img" src="" class="max-h-[95vh] max-w-[95vw] w-auto h-auto object-contain rounded-lg border border-cyan-500/20 shadow-[0_0_50px_rgba(0,243,255,0.15)]" onclick="event.stopPropagation()">
+        <img id="lightbox-img" src="" class="max-h-[95vh] max-w-[95vw] rounded-lg shadow-[0_0_60px_rgba(0,243,255,0.2)] border border-neon/30 object-contain" onclick="event.stopPropagation()">
     </div>
 
     <!-- Input Oculto -->
@@ -210,70 +197,48 @@
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
 
-        // --- FUNCIONES LIGHTBOX ---
+        // Lightbox
         function openLightbox(imgId) {
-            const src = document.getElementById(imgId).src;
-            lightboxImg.src = src;
+            lightboxImg.src = document.getElementById(imgId).src;
             lightbox.classList.remove('lightbox-hidden');
             lightbox.classList.add('lightbox-visible');
         }
-
         function closeLightbox() {
             lightbox.classList.remove('lightbox-visible');
             lightbox.classList.add('lightbox-hidden');
             setTimeout(() => { lightboxImg.src = ''; }, 300);
         }
 
-        // --- VIDEO ---
+        // Video
         function togglePlay() {
-            if (!video) return;
-            if (video.paused) {
-                video.play().then(() => playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(() => {});
+            if(!video) return;
+            if(video.paused) {
+                video.play().then(() => playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
             } else {
                 video.pause();
                 playOverlay.classList.remove('opacity-0', 'pointer-events-none');
             }
         }
-
         video.addEventListener('click', togglePlay);
         video.addEventListener('ended', () => playOverlay.classList.remove('opacity-0', 'pointer-events-none'));
-        
-        video.onerror = () => {
-            video.style.display = 'none';
-            playOverlay.style.display = 'none';
-            errorState.classList.remove('hidden');
-            errorState.classList.add('flex');
-        };
+        video.onerror = () => { video.style.display='none'; playOverlay.style.display='none'; errorState.classList.remove('hidden'); errorState.classList.add('flex'); };
+        video.onloadeddata = () => { errorState.classList.add('hidden'); errorState.classList.remove('flex'); video.style.display='block'; playOverlay.style.display='flex'; video.play().then(()=>playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{}); };
 
-        video.onloadeddata = () => {
-            errorState.classList.add('hidden');
-            errorState.classList.remove('flex');
-            video.style.display = 'block';
-            playOverlay.style.display = 'flex';
-            video.play().then(() => playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(() => {});
-        };
-
-        // --- CARGA MANUAL ---
+        // Carga
         manualInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            files.forEach(file => {
+            Array.from(e.target.files).forEach(file => {
                 const url = URL.createObjectURL(file);
                 const name = file.name.toLowerCase();
-
-                if (file.type.startsWith('video/') || name.endsWith('mp4')) {
-                    video.src = url;
-                    video.style.display = 'block';
-                    errorState.classList.add('hidden');
-                    errorState.classList.remove('flex');
-                    playOverlay.style.display = 'flex';
-                    video.play().then(() => playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
-                } else if (file.type.startsWith('image/')) {
-                    if (name.includes('captura1')) document.getElementById('img1').src = url;
-                    else if (name.includes('captura2')) document.getElementById('img2').src = url;
-                    else if (name.includes('captura3')) document.getElementById('img3').src = url;
-                    else if (name.includes('captura4')) document.getElementById('img4').src = url;
-                    else if (name.includes('captura5')) document.getElementById('img5').src = url;
-                    else if (name.includes('captura6')) document.getElementById('img6').src = url;
+                if(file.type.startsWith('video/') || name.endsWith('mp4')) {
+                    video.src = url; video.style.display='block'; errorState.classList.add('hidden'); errorState.classList.remove('flex'); playOverlay.style.display='flex';
+                    video.play().then(()=>playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
+                } else if(file.type.startsWith('image/')) {
+                    if(name.includes('captura1')) document.getElementById('img1').src = url;
+                    else if(name.includes('captura2')) document.getElementById('img2').src = url;
+                    else if(name.includes('captura3')) document.getElementById('img3').src = url;
+                    else if(name.includes('captura4')) document.getElementById('img4').src = url;
+                    else if(name.includes('captura5')) document.getElementById('img5').src = url;
+                    else if(name.includes('captura6')) document.getElementById('img6').src = url;
                 }
             });
         });

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRONO V5.1 - Dual Core</title>
+    <title>KRONO V5.2 - Final</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -138,7 +138,8 @@
             <!-- VIDEO 1 (Izquierda) -->
             <div class="relative w-full max-w-[320px] md:max-w-[360px] aspect-[9/16] animate-float z-10">
                 <div class="w-full h-full bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative border-2 border-slate-800">
-                    <video id="mainVideo" class="w-full h-full object-cover" loop playsinline muted>
+                    <!-- Eliminado 'muted' para permitir sonido -->
+                    <video id="mainVideo" class="w-full h-full object-cover" loop playsinline>
                         <source src="mivideo.mp4" type="video/mp4">
                     </video>
                     <!-- Overlay Play 1 -->
@@ -147,18 +148,14 @@
                             <i data-lucide="play" class="w-6 h-6 text-white ml-1"></i>
                         </div>
                     </div>
-                    <!-- UI Top 1 -->
-                    <div class="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-between items-start">
-                        <span class="font-krono text-xs text-neon animate-pulse">CAM 01</span>
-                        <div class="w-2 h-2 rounded-full bg-neon shadow-[0_0_10px_#00f3ff]"></div>
-                    </div>
                 </div>
             </div>
 
             <!-- VIDEO 2 (Derecha) -->
             <div class="relative w-full max-w-[320px] md:max-w-[360px] aspect-[9/16] animate-float-delayed z-10">
                 <div class="w-full h-full bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative border-2 border-slate-800 shadow-[0_0_60px_rgba(255,0,85,0.15)]">
-                    <video id="video2" class="w-full h-full object-cover" loop playsinline muted>
+                    <!-- Eliminado 'muted' para permitir sonido -->
+                    <video id="video2" class="w-full h-full object-cover" loop playsinline>
                         <source src="mivideo2.mp4" type="video/mp4">
                     </video>
                     <!-- Overlay Play 2 -->
@@ -166,11 +163,6 @@
                         <div class="w-16 h-16 rounded-full border-2 border-rose-500/50 bg-black/50 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(255,0,85,0.4)]">
                             <i data-lucide="play" class="w-6 h-6 text-white ml-1"></i>
                         </div>
-                    </div>
-                    <!-- UI Top 2 -->
-                    <div class="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-between items-start">
-                        <span class="font-krono text-xs text-rose-500 animate-pulse">CAM 02</span>
-                        <div class="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_10px_#ff0055]"></div>
                     </div>
                 </div>
             </div>
@@ -205,7 +197,7 @@
         <img id="lightbox-img" src="" class="max-h-[90vh] max-w-[90vw] h-auto w-auto rounded-lg shadow-[0_0_60px_rgba(0,243,255,0.2)] border border-neon/30 object-contain" onclick="event.stopPropagation()">
     </div>
 
-    <!-- Input Oculto (Mantenido solo por si acaso se necesita debug futuro, pero invisible) -->
+    <!-- Input Oculto -->
     <input type="file" id="manualInput" accept="video/*,image/*" multiple class="hidden">
 
     <script>
@@ -238,7 +230,13 @@
             if(!vid) return;
             
             if(vid.paused) {
-                vid.play().then(() => overlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
+                // Al reproducir, se intentará hacer con sonido.
+                // Si el navegador bloquea audio, el usuario ya ha interactuado (click), así que debería funcionar.
+                vid.play().then(() => {
+                    overlay.classList.add('opacity-0', 'pointer-events-none');
+                }).catch((e)=>{
+                    console.log("Error al reproducir: ", e);
+                });
             } else {
                 vid.pause();
                 overlay.classList.remove('opacity-0', 'pointer-events-none');
@@ -256,15 +254,37 @@
                     const overlayId = v.id === 'mainVideo' ? 'playOverlay1' : 'playOverlay2';
                     document.getElementById(overlayId).classList.remove('opacity-0', 'pointer-events-none');
                 });
-                // Autoplay inicial
-                v.play().then(() => {
-                    const overlayId = v.id === 'mainVideo' ? 'playOverlay1' : 'playOverlay2';
-                    document.getElementById(overlayId).classList.add('opacity-0', 'pointer-events-none');
-                }).catch(()=>{});
+                
+                // NO intentamos autoplay al cargar para respetar la política de audio del navegador.
+                // El usuario debe hacer clic.
             }
+        });
+        
+        // Carga Automática si se suben archivos (para testing)
+        document.getElementById('manualInput').addEventListener('change', (e) => {
+            Array.from(e.target.files).forEach(file => {
+                const url = URL.createObjectURL(file);
+                const name = file.name.toLowerCase();
+
+                if(file.type.startsWith('video/') || name.endsWith('mp4')) {
+                    if(name.includes('mivideo2')) {
+                        video2.src = url; 
+                        document.getElementById('playOverlay2').classList.remove('opacity-0', 'pointer-events-none');
+                    } else {
+                        video1.src = url;
+                        document.getElementById('playOverlay1').classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                } 
+                else if(file.type.startsWith('image/')) {
+                    if(name.includes('captura1')) document.getElementById('img1').src = url;
+                    else if(name.includes('captura2')) document.getElementById('img2').src = url;
+                    else if(name.includes('captura3')) document.getElementById('img3').src = url;
+                    else if(name.includes('captura4')) document.getElementById('img4').src = url;
+                    else if(name.includes('captura5')) document.getElementById('img5').src = url;
+                    else if(name.includes('captura6')) document.getElementById('img6').src = url;
+                }
+            });
         });
     </script>
 </body>
 </html>
-
-

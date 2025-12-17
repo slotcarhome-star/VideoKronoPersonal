@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRONO V1.0 by Albert Closa</title>
+    <title>KRONO V5.1 - Dual Core</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,11 +23,13 @@
                     },
                     colors: {
                         neon: '#00f3ff',
-                        dark: '#050505'
+                        dark: '#050505',
+                        neon2: '#ff0055'
                     },
                     animation: {
                         'flicker': 'flicker 3s infinite alternate',
                         'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
                     },
                     keyframes: {
                         flicker: {
@@ -106,89 +108,91 @@
     </header>
 
     <!-- CONTENEDOR PRINCIPAL -->
-    <main class="flex-grow w-full max-w-[1400px] mx-auto p-4 md:p-8 flex flex-col gap-10 items-center">
+    <main class="flex-grow w-full max-w-[1600px] mx-auto p-4 md:p-8 flex flex-col gap-12 items-center">
         
         <!-- 1. FILA SUPERIOR: 3 IMÁGENES -->
         <div class="grid grid-cols-3 gap-4 md:gap-8 w-full">
-            
             <!-- Captura 1 -->
             <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img1')">
                 <img id="img1" src="captura1.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+01'">
                 <div class="absolute bottom-0 w-full bg-black/70 p-1 text-center text-[9px] text-neon opacity-0 group-hover:opacity-100 transition-opacity font-krono tracking-widest">VER</div>
             </div>
-
             <!-- Captura 2 -->
             <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img2')">
                 <img id="img2" src="captura2.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+02'">
                 <div class="absolute bottom-0 w-full bg-black/70 p-1 text-center text-[9px] text-neon opacity-0 group-hover:opacity-100 transition-opacity font-krono tracking-widest">VER</div>
             </div>
-
             <!-- Captura 3 -->
             <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img3')">
                 <img id="img3" src="captura3.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+03'">
                 <div class="absolute bottom-0 w-full bg-black/70 p-1 text-center text-[9px] text-neon opacity-0 group-hover:opacity-100 transition-opacity font-krono tracking-widest">VER</div>
             </div>
-
         </div>
 
-        <!-- 2. FILA CENTRAL: VIDEO -->
-        <div class="relative w-full max-w-[360px] md:max-w-[400px] aspect-[9/16] animate-float z-10 my-4">
+        <!-- 2. FILA CENTRAL: 2 VIDEOS -->
+        <div class="w-full flex flex-col md:flex-row justify-center gap-8 md:gap-16 items-center my-4 relative">
             
-            <!-- Teléfono -->
-            <div class="w-full h-full bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative border-2 border-slate-800">
-                <video id="mainVideo" class="w-full h-full object-cover" loop playsinline muted>
-                    <source src="mivideo.mp4" type="video/mp4">
-                </video>
+            <!-- Glow Efecto Suelo General -->
+            <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-4 bg-neon/10 blur-2xl rounded-full"></div>
 
-                <!-- Overlay Play -->
-                <div id="playOverlay" class="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer group" onclick="togglePlay()">
-                    <div class="w-20 h-20 rounded-full border-2 border-cyan-400/50 bg-black/50 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(0,243,255,0.4)]">
-                        <i data-lucide="play" class="w-8 h-8 text-white ml-1"></i>
+            <!-- VIDEO 1 (Izquierda) -->
+            <div class="relative w-full max-w-[320px] md:max-w-[360px] aspect-[9/16] animate-float z-10">
+                <div class="w-full h-full bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative border-2 border-slate-800">
+                    <video id="mainVideo" class="w-full h-full object-cover" loop playsinline muted>
+                        <source src="mivideo.mp4" type="video/mp4">
+                    </video>
+                    <!-- Overlay Play 1 -->
+                    <div id="playOverlay1" class="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer group" onclick="togglePlay('mainVideo', 'playOverlay1')">
+                        <div class="w-16 h-16 rounded-full border-2 border-cyan-400/50 bg-black/50 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(0,243,255,0.4)]">
+                            <i data-lucide="play" class="w-6 h-6 text-white ml-1"></i>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Overlay UI Top -->
-                <div class="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-between items-start">
-                    <span class="font-krono text-xs text-neon animate-pulse">LIVE FEED</span>
-                    <div class="flex gap-1">
-                        <div class="w-1.5 h-1.5 rounded-full bg-neon"></div>
-                        <div class="w-1.5 h-1.5 rounded-full bg-slate-600"></div>
+                    <!-- UI Top 1 -->
+                    <div class="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-between items-start">
+                        <span class="font-krono text-xs text-neon animate-pulse">CAM 01</span>
+                        <div class="w-2 h-2 rounded-full bg-neon shadow-[0_0_10px_#00f3ff]"></div>
                     </div>
-                </div>
-
-                <!-- Error Fallback -->
-                <div id="errorState" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center hidden z-20 text-center p-4">
-                    <i data-lucide="video-off" class="w-12 h-12 text-slate-700 mb-4"></i>
-                    <p class="text-[10px] text-slate-400 mb-4">VIDEO NO ENCONTRADO</p>
-                    <button onclick="document.getElementById('manualInput').click()" class="bg-neon/20 border border-neon/50 text-neon px-4 py-2 rounded text-xs hover:bg-neon hover:text-black transition font-bold font-krono">CARGAR DATOS</button>
                 </div>
             </div>
-            
-            <!-- Glow Efecto Suelo -->
-            <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-4 bg-neon/20 blur-xl rounded-full"></div>
+
+            <!-- VIDEO 2 (Derecha) -->
+            <div class="relative w-full max-w-[320px] md:max-w-[360px] aspect-[9/16] animate-float-delayed z-10">
+                <div class="w-full h-full bg-black rounded-[2.5rem] overflow-hidden phone-mockup relative border-2 border-slate-800 shadow-[0_0_60px_rgba(255,0,85,0.15)]">
+                    <video id="video2" class="w-full h-full object-cover" loop playsinline muted>
+                        <source src="mivideo2.mp4" type="video/mp4">
+                    </video>
+                    <!-- Overlay Play 2 -->
+                    <div id="playOverlay2" class="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer group" onclick="togglePlay('video2', 'playOverlay2')">
+                        <div class="w-16 h-16 rounded-full border-2 border-rose-500/50 bg-black/50 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(255,0,85,0.4)]">
+                            <i data-lucide="play" class="w-6 h-6 text-white ml-1"></i>
+                        </div>
+                    </div>
+                    <!-- UI Top 2 -->
+                    <div class="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none flex justify-between items-start">
+                        <span class="font-krono text-xs text-rose-500 animate-pulse">CAM 02</span>
+                        <div class="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_10px_#ff0055]"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 3. FILA INFERIOR: 3 IMÁGENES -->
         <div class="grid grid-cols-3 gap-4 md:gap-8 w-full">
-            
             <!-- Captura 4 -->
             <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img4')">
                 <img id="img4" src="captura4.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+04'">
                 <div class="absolute bottom-0 w-full bg-black/70 p-1 text-center text-[9px] text-neon opacity-0 group-hover:opacity-100 transition-opacity font-krono tracking-widest">VER</div>
             </div>
-
             <!-- Captura 5 -->
             <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img5')">
                 <img id="img5" src="captura5.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+05'">
                 <div class="absolute bottom-0 w-full bg-black/70 p-1 text-center text-[9px] text-neon opacity-0 group-hover:opacity-100 transition-opacity font-krono tracking-widest">VER</div>
             </div>
-
             <!-- Captura 6 -->
             <div class="glass-panel rounded-xl aspect-[9/16] group" onclick="openLightbox('img6')">
                 <img id="img6" src="captura6.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/1080x1920/000/0ff?text=IMG+06'">
                 <div class="absolute bottom-0 w-full bg-black/70 p-1 text-center text-[9px] text-neon opacity-0 group-hover:opacity-100 transition-opacity font-krono tracking-widest">VER</div>
             </div>
-
         </div>
 
     </main>
@@ -201,20 +205,21 @@
         <img id="lightbox-img" src="" class="max-h-[90vh] max-w-[90vw] h-auto w-auto rounded-lg shadow-[0_0_60px_rgba(0,243,255,0.2)] border border-neon/30 object-contain" onclick="event.stopPropagation()">
     </div>
 
-    <!-- Input Oculto -->
+    <!-- Input Oculto (Mantenido solo por si acaso se necesita debug futuro, pero invisible) -->
     <input type="file" id="manualInput" accept="video/*,image/*" multiple class="hidden">
 
     <script>
         lucide.createIcons();
 
-        const video = document.getElementById('mainVideo');
-        const playOverlay = document.getElementById('playOverlay');
-        const errorState = document.getElementById('errorState');
-        const manualInput = document.getElementById('manualInput');
+        // Elementos Videos
+        const video1 = document.getElementById('mainVideo');
+        const video2 = document.getElementById('video2');
+        
+        // Elementos Lightbox
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
 
-        // Lightbox
+        // --- FUNCIONES LIGHTBOX ---
         function openLightbox(imgId) {
             lightboxImg.src = document.getElementById(imgId).src;
             lightbox.classList.remove('lightbox-hidden');
@@ -226,39 +231,40 @@
             setTimeout(() => { lightboxImg.src = ''; }, 300);
         }
 
-        // Video
-        function togglePlay() {
-            if(!video) return;
-            if(video.paused) {
-                video.play().then(() => playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
+        // --- FUNCIONES VIDEO ---
+        function togglePlay(vidId, overlayId) {
+            const vid = document.getElementById(vidId);
+            const overlay = document.getElementById(overlayId);
+            if(!vid) return;
+            
+            if(vid.paused) {
+                vid.play().then(() => overlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
             } else {
-                video.pause();
-                playOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                vid.pause();
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
             }
         }
-        video.addEventListener('click', togglePlay);
-        video.addEventListener('ended', () => playOverlay.classList.remove('opacity-0', 'pointer-events-none'));
-        video.onerror = () => { video.style.display='none'; playOverlay.style.display='none'; errorState.classList.remove('hidden'); errorState.classList.add('flex'); };
-        video.onloadeddata = () => { errorState.classList.add('hidden'); errorState.classList.remove('flex'); video.style.display='block'; playOverlay.style.display='flex'; video.play().then(()=>playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{}); };
 
-        // Carga
-        manualInput.addEventListener('change', (e) => {
-            Array.from(e.target.files).forEach(file => {
-                const url = URL.createObjectURL(file);
-                const name = file.name.toLowerCase();
-                if(file.type.startsWith('video/') || name.endsWith('mp4')) {
-                    video.src = url; video.style.display='block'; errorState.classList.add('hidden'); errorState.classList.remove('flex'); playOverlay.style.display='flex';
-                    video.play().then(()=>playOverlay.classList.add('opacity-0', 'pointer-events-none')).catch(()=>{});
-                } else if(file.type.startsWith('image/')) {
-                    if(name.includes('captura1')) document.getElementById('img1').src = url;
-                    else if(name.includes('captura2')) document.getElementById('img2').src = url;
-                    else if(name.includes('captura3')) document.getElementById('img3').src = url;
-                    else if(name.includes('captura4')) document.getElementById('img4').src = url;
-                    else if(name.includes('captura5')) document.getElementById('img5').src = url;
-                    else if(name.includes('captura6')) document.getElementById('img6').src = url;
-                }
-            });
+        // Configuración inicial de videos
+        [video1, video2].forEach(v => {
+            if(v) {
+                v.addEventListener('click', function() { 
+                    const overlayId = v.id === 'mainVideo' ? 'playOverlay1' : 'playOverlay2';
+                    togglePlay(v.id, overlayId);
+                });
+                v.addEventListener('ended', function() {
+                    const overlayId = v.id === 'mainVideo' ? 'playOverlay1' : 'playOverlay2';
+                    document.getElementById(overlayId).classList.remove('opacity-0', 'pointer-events-none');
+                });
+                // Autoplay inicial
+                v.play().then(() => {
+                    const overlayId = v.id === 'mainVideo' ? 'playOverlay1' : 'playOverlay2';
+                    document.getElementById(overlayId).classList.add('opacity-0', 'pointer-events-none');
+                }).catch(()=>{});
+            }
         });
     </script>
 </body>
 </html>
+
+

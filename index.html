@@ -93,18 +93,60 @@
         #lightbox { transition: opacity 0.3s ease, visibility 0.3s ease; }
         .lightbox-hidden { opacity: 0; pointer-events: none; visibility: hidden; }
         .lightbox-visible { opacity: 1; pointer-events: auto; visibility: visible; }
+        
+        /* Estilos botón neón actualizados */
+        .neon-btn {
+            background: rgba(0, 243, 255, 0.05); /* Fondo muy sutil azul claro */
+            color: #00f3ff; /* Texto neón claro */
+            border-color: rgba(0, 243, 255, 0.4);
+            transition: all 0.2s ease;
+        }
+        
+        .neon-btn:hover {
+            background: rgba(0, 243, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            border-color: rgba(0, 243, 255, 1);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Estado Click: Azul más fuerte/profundo */
+        .neon-btn:active {
+            background: rgba(0, 110, 255, 0.25); /* Fondo azul más intenso */
+            color: #2288ff; /* Texto azul fuerte */
+            border-color: #0066ff; /* Borde azul fuerte */
+            box-shadow: 0 0 10px rgba(0, 80, 255, 0.6) inset; /* Brillo interior */
+            transform: scale(0.95); /* Efecto de pulsación */
+            text-shadow: 0 0 5px rgba(0, 80, 255, 1);
+        }
     </style>
 </head>
 <body class="flex flex-col font-sans selection:bg-cyan-500/30 pb-12">
 
     <!-- CABECERA -->
-    <header class="w-full py-6 px-4 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-md border-b border-white/5">
-        <h1 class="font-krono text-3xl md:text-5xl font-black text-center text-white animate-flicker tracking-widest">
+    <header class="w-full py-6 px-2 md:px-4 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-md border-b border-white/5">
+        <h1 class="font-krono text-3xl md:text-5xl font-black text-center text-white animate-flicker tracking-widest mb-4">
             KRONO V1.0
         </h1>
-        <p class="font-krono text-[10px] md:text-xs text-cyan-400 tracking-[0.4em] uppercase opacity-70 mt-1">
-            by Albert Closa
-        </p>
+        
+        <!-- Contenedor de Botones y Texto - SIEMPRE EN FILA (flex-row) -->
+        <div class="flex flex-row items-center justify-center gap-2 md:gap-8 w-full max-w-6xl">
+            
+            <!-- Botón Izquierda -->
+            <a href="https://slotcarhome-star.github.io/KronoPersonal/" target="_blank" class="neon-btn px-2 py-1.5 md:px-6 md:py-2 rounded-lg md:rounded-xl border border-neon/30 text-[8px] md:text-xs font-krono tracking-widest whitespace-nowrap">
+                KronoPersonal V.1.0
+            </a>
+
+            <p class="font-krono text-[9px] md:text-xs text-cyan-400 tracking-[0.2em] md:tracking-[0.4em] uppercase opacity-70 whitespace-nowrap">
+                by Albert Closa
+            </p>
+
+            <!-- Botón Derecha -->
+            <a href="https://slotcarhome-star.github.io/KronoPersonal/" target="_blank" class="neon-btn px-2 py-1.5 md:px-6 md:py-2 rounded-lg md:rounded-xl border border-neon/30 text-[8px] md:text-xs font-krono tracking-widest whitespace-nowrap">
+                KronoPersonal V.1.0
+            </a>
+            
+        </div>
     </header>
 
     <!-- CONTENEDOR PRINCIPAL -->
